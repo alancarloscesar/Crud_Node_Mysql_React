@@ -1,0 +1,33 @@
+body {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+form {
+    display: flex;
+    flex-direction: column;
+    max-width: 400px;
+    border: 1px solid rgb(228, 99, 25);
+    border-radius: 8px;
+    padding: 2rem 1rem;
+}
+
+input {
+    margin: .4rem 0;
+    height: 2rem;
+    border-radius: 8px;
+    border: 1px solid #212121;
+    padding-left: 1rem;
+}
+
+
+button {
+    background-color: #212121;
+    color: #fff;
+    border: 0;
+    height: 2.5rem;
+    border-radius: 8px;
+    cursor: pointer;
+}
