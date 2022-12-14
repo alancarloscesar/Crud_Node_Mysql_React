@@ -1,18 +1,26 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import './index.css'
 import axios from 'axios'
+import Card from "./Card";
 
 export default function App() {
 
   const [name, setName] = useState('')
   const [price, setPrice] = useState('')
   const [category, setCategory] = useState('')
-  
+
+  const [products, setProducts] = useState([])
+
 
   async function handleAddProduct(e) {
     e.preventDefault();
 
     try {
+      if (name === '' || price === '' || category === '') {
+        alert("Preencha todos os campos!")
+        return;
+      }
+
       const response = await axios.post('http://localhost:3456/cadastro', {
         name: name,
         price: price,
@@ -27,20 +35,25 @@ export default function App() {
     }
   }
 
-  async function loadProducts() {
-    axios.get("http://localhost:3456/loadProducts")
-      .then((response) => {
-        console.log(response.data)
-      })
-      .catch((errr) => {
-        console.log("Errooooooo" + errr)
-      })
-  }
+  useEffect(() => {
+    async function loadProducts() {
+      axios.get("http://localhost:3456/loadProducts")
+        .then((response) => {
+          console.log(response.data)
+          setProducts(response.data)
+        })
+        .catch((errr) => {
+          console.log("Errooooooo" + errr)
+        })
+    }
+
+    loadProducts();
+  }, [])
 
   return (
 
     <div>
-      <h1>Crud - produtos</h1>
+      <h1>CRUD - Produtos</h1>
 
       <form onSubmit={handleAddProduct}>
 
@@ -60,8 +73,16 @@ export default function App() {
           onChange={(e) => setCategory(e.target.value)}
         />
 
-        <button type="submit" >Cadastrar</button>
+        <button type="submit">Cadastrar</button>
       </form>
+
+      {
+        products.map((item)=>{
+          return(
+            <Card products={item} />
+          )
+        })
+      }
     </div>
   )
 }
